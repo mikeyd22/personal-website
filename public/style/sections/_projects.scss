@@ -1,0 +1,112 @@
+#projects {
+  background: $dark-bg;
+  color: $text-primary;
+  padding: 8rem 0 10rem;
+
+  .section-title {
+    color: $text-primary;
+  }
+}
+
+.project-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  margin-top: 2rem;
+
+  @include respond(tab-land) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond(phone) {
+    grid-template-columns: 1fr;
+    gap: 2.4rem;
+  }
+}
+
+.project-card {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid $border-color;
+  background: $surface;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  text-align: left;
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4), 0 0 32px rgba(20, 184, 166, 0.08);
+    border-color: rgba(20, 184, 166, 0.4);
+  }
+
+  &__inner {
+    position: relative;
+    overflow: hidden;
+  }
+
+  &__img {
+    width: 100%;
+    height: 230px;
+    object-fit: contain;
+    background: #111c2e;
+    display: block;
+    transition: transform 0.45s ease;
+  }
+
+  &:hover &__img {
+    transform: scale(1.06);
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 12, 20, 0.93);
+    backdrop-filter: blur(6px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2.4rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover &__overlay {
+    opacity: 1;
+  }
+
+  &__overlay-title {
+    font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+    font-size: 2rem;
+    color: $text-primary;
+    margin-bottom: 1.2rem;
+    text-align: center;
+  }
+
+  &__overlay-desc {
+    font-size: 1.35rem;
+    color: $text-muted;
+    margin-bottom: 2.4rem;
+    line-height: 1.65;
+    text-align: center;
+  }
+
+  &__footer {
+    padding: 1.8rem 2rem;
+    border-top: 1px solid $border-color;
+  }
+
+  &__title {
+    font-family: 'Space Grotesk', 'Montserrat', sans-serif;
+    font-size: 1.8rem;
+    color: $text-primary;
+    margin-bottom: 0.5rem;
+  }
+
+  &__tag {
+    font-size: 1.2rem;
+    color: $primary-color;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+}
