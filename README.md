@@ -9,7 +9,8 @@ portfolio of Michael Da. Static, no build step, hosted on Firebase Hosting.
 | --- | --- |
 | `public/index.html` | One-page portfolio: hero with spinning D3 globe, about, selected work, contact |
 | `public/drone-build.html` | Case study / build log for the F450 quadcopter |
-| `public/404.html` | Firebase default not-found page |
+| `public/spatial-analysis.html` | Hand-written HTML: five GIS analysis write-ups with report PDFs |
+| `public/404.html` | Simple not-found page in the site's colours |
 
 ## ⚠️ The HTML files are generated, not hand-written
 
@@ -53,14 +54,26 @@ firebase deploy --only hosting
 Firebase project: `personal-website-7c1da` (see `.firebaserc`). `public/` is the
 hosting root — everything in it ships.
 
+`firebase.json` turns on clean URLs (`/spatial-analysis`, `/drone-build`) and
+sets security headers (HSTS, CSP, nosniff, frame-ancestors none, referrer and
+permissions policies) plus a 30-day cache on `/assets/**`. The CSP has to allow
+`unsafe-inline`, `unsafe-eval`, `blob:` and unpkg.com because the bundled pages
+load React from unpkg at runtime and compile their page script with
+`new Function`. Tighten it once those pages are rewritten as plain HTML.
+
+To test headers locally, use the `firebase` config in `.claude/launch.json`
+(`firebase serve --only hosting`); the plain Python server does not apply them.
+
 ## Assets
 
-`public/assets/` holds the images, resume PDFs and social card. A few files
-there aren't referenced by either page right now (`Canda_GDP_Map.png`,
-`mypicture.png`, `MichaelDaResume2.pdf`) — kept deliberately, they're yours.
+`public/assets/` holds the images, resume PDF, report PDFs and social card.
+Everything in it is publicly downloadable, so keep it to files the pages
+actually use. Photos are saved without EXIF (the original drone photos carried
+GPS coordinates); if you add new phone photos, strip the metadata first.
 
-`og-image.png`, `favicon-32.png` and `apple-touch-icon.png` are generated from
-`Michael-Da-thumbail.png` and `personal_logo.png` respectively.
+`source-assets/` (not deployed) keeps originals that no page references:
+`Michael-Da-thumbail.png` (source of `og-image.png`) and `Canda_GDP_Map.png`.
+`favicon-32.png` and `apple-touch-icon.png` come from `personal_logo.png`.
 
 ## History
 
