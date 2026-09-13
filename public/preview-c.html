@@ -10,14 +10,38 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  // Runs before first paint so the page never flashes the wrong theme.
+  (function () {
+    try {
+      var saved = localStorage.getItem('theme');
+      var dark = saved ? saved === 'dark'
+                       : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
+  })();
+</script>
+
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
+    color-scheme: light;
     --bg: #ffffff;
     --ink: #1a1a1a;
     --soft: #6b6b6b;
     --rule: #d8d8d8;
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #121212;
+    --ink: #e9e9e7;
+    --soft: #9b9b9b;
+    --rule: #35353a;
   }
 
   body {
@@ -32,11 +56,22 @@
   .page { max-width: 580px; margin: 0 auto; padding: 34px 24px 64px; }
 
   /* header */
-  .top { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
   .name { font-size: 16px; font-weight: 500; text-decoration: none; color: var(--ink); }
-  .top nav { display: flex; gap: 22px; }
+  .top nav { display: flex; align-items: center; gap: 22px; }
   .top nav a { font-size: 15px; color: var(--soft); text-decoration: none; }
   .top nav a:hover { color: var(--ink); }
+
+  /* theme toggle */
+  .theme {
+    background: none; border: 0; padding: 2px; cursor: pointer;
+    color: var(--soft); display: inline-flex; line-height: 0;
+  }
+  .theme:hover { color: var(--ink); }
+  .theme svg { width: 17px; height: 17px; fill: currentColor; display: block; }
+  .theme .moon { display: none; }
+  :root[data-theme="dark"] .theme .moon { display: block; }
+  :root[data-theme="dark"] .theme .sun { display: none; }
 
   /* banner */
   .banner { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 3px; background: #fff; }
@@ -53,7 +88,7 @@
   .social a:hover { color: var(--ink); }
   .social svg { width: 19px; height: 19px; fill: currentColor; display: block; }
 
-  a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
+  a:focus-visible, .theme:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 2px; }
 
   @media (max-width: 520px) {
     .top { flex-direction: column; align-items: flex-start; gap: 10px; }
@@ -70,6 +105,10 @@
       <a href="/spatial-analysis">Analysis</a>
       <a href="/drone-build">Drone</a>
       <a href="/assets/MichaelDaResume.pdf">Resume</a>
+      <button class="theme" type="button" aria-label="Switch theme">
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-13.2a1 1 0 0 1-1-1V1.5a1 1 0 1 1 2 0v1.3a1 1 0 0 1-1 1zm0 19.7a1 1 0 0 1-1-1v-1.3a1 1 0 1 1 2 0v1.3a1 1 0 0 1-1 1zM4.2 6.6a1 1 0 0 1-.7-.3l-.9-.9a1 1 0 0 1 1.4-1.4l.9.9a1 1 0 0 1-.7 1.7zm16.5 16.5a1 1 0 0 1-.7-.3l-.9-.9a1 1 0 1 1 1.4-1.4l.9.9a1 1 0 0 1-.7 1.7zM2.8 13H1.5a1 1 0 1 1 0-2h1.3a1 1 0 1 1 0 2zm19.7 0h-1.3a1 1 0 1 1 0-2h1.3a1 1 0 1 1 0 2zM3.3 23.1a1 1 0 0 1-.7-1.7l.9-.9a1 1 0 1 1 1.4 1.4l-.9.9a1 1 0 0 1-.7.3zM19.8 6.6a1 1 0 0 1-.7-1.7l.9-.9a1 1 0 1 1 1.4 1.4l-.9.9a1 1 0 0 1-.7.3z"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 14.2A9 9 0 0 1 9.8 2.4a1 1 0 0 0-1.3-1.2A11 11 0 1 0 22.8 15.5a1 1 0 0 0-1.2-1.3z"/></svg>
+      </button>
     </nav>
   </div>
 
@@ -99,5 +138,25 @@
   </div>
 
 </div>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.querySelector('.theme');
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+
+    btn.addEventListener('click', function () {
+      var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+    });
+
+    // Follow the system only while the visitor hasn't picked a theme themselves.
+    mq.addEventListener('change', function (e) {
+      try { if (localStorage.getItem('theme')) return; } catch (err) { return; }
+      root.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    });
+  })();
+</script>
 </body>
 </html>
