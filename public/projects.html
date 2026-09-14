@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects</title>
+<meta name="description" content="Five GIS analyses by Michael Da: collision hotspots in Kitchener, geocoding building permits, NBA shot efficiency, fire station network analysis, and wind farm siting in Bruce County.">
+<meta name="author" content="Michael Da">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://damichael.com/projects">
+<link rel="icon" href="/assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Michael Da">
+<meta property="og:url" content="https://damichael.com/projects">
+<meta property="og:title" content="Projects">
+<meta property="og:description" content="Five GIS analyses by Michael Da: collision hotspots in Kitchener, geocoding building permits, NBA shot efficiency, fire station network analysis, and wind farm siting in Bruce County.">
+<meta property="og:image" content="https://damichael.com/assets/gis/wind-siting.jpg">
+<meta property="og:image:width" content="1351">
+<meta property="og:image:height" content="851">
+<meta property="og:image:alt" content="Wind farm site suitability map of Bruce County">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Projects">
+<meta name="twitter:description" content="Five GIS analyses by Michael Da: collision hotspots in Kitchener, geocoding building permits, NBA shot efficiency, fire station network analysis, and wind farm siting in Bruce County.">
+<meta name="twitter:image" content="https://damichael.com/assets/gis/wind-siting.jpg">
+<script src="/theme.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <a class="name" href="/">MDA</a>
+    <nav>
+      <a href="/assets/MichaelDaResume.pdf">Resume</a>
+      <a href="/projects" aria-current="page">Projects</a>
+      <a href="/drone">Drone</a>
+      <button class="theme" type="button" aria-label="Switch theme">
+        <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-13.2a1 1 0 0 1-1-1V1.5a1 1 0 1 1 2 0v1.3a1 1 0 0 1-1 1zm0 19.7a1 1 0 0 1-1-1v-1.3a1 1 0 1 1 2 0v1.3a1 1 0 0 1-1 1zM4.2 6.6a1 1 0 0 1-.7-.3l-.9-.9a1 1 0 0 1 1.4-1.4l.9.9a1 1 0 0 1-.7 1.7zm16.5 16.5a1 1 0 0 1-.7-.3l-.9-.9a1 1 0 1 1 1.4-1.4l.9.9a1 1 0 0 1-.7 1.7zM2.8 13H1.5a1 1 0 1 1 0-2h1.3a1 1 0 1 1 0 2zm19.7 0h-1.3a1 1 0 1 1 0-2h1.3a1 1 0 1 1 0 2zM3.3 23.1a1 1 0 0 1-.7-1.7l.9-.9a1 1 0 1 1 1.4 1.4l-.9.9a1 1 0 0 1-.7.3zM19.8 6.6a1 1 0 0 1-.7-1.7l.9-.9a1 1 0 1 1 1.4 1.4l-.9.9a1 1 0 0 1-.7.3z"/></svg>
+        <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 14.2A9 9 0 0 1 9.8 2.4a1 1 0 0 0-1.3-1.2A11 11 0 1 0 22.8 15.5a1 1 0 0 0-1.2-1.3z"/></svg>
+      </button>
+    </nav>
+  </div>
+
+  <h1>Projects</h1>
+  <p class="lede">Spatial analysis in ArcGIS Pro and Python. Each one links to the full report.</p>
+
+  <section class="project" id="collisions">
+    <h2>Motor vehicle collisions in Kitchener</h2>
+    <p>Eight years of Waterloo Region Police collision records aggregated into a hexagonal grid to find where crashes actually concentrate. The hotspots track the King Street corridor and line up with the ION LRT route and its stops. A Moran's I of 0.495 with a z-score of 19.13 confirms the clustering is statistically significant rather than chance.</p>
+    <p class="tools">ArcGIS Pro. XY Table to Point, Generate Tessellation, Summarize Within, Spatial Autocorrelation, Natural Breaks.</p>
+    <figure>
+      <a href="/assets/gis/collisions.jpg"><img src="/assets/gis/collisions.jpg" width="1400" height="691" loading="lazy" alt="Graduated symbol map of motor vehicle collisions in Kitchener, 2015 to 2022, with the ION LRT route overlaid"></a>
+      <figcaption>Total collisions by hexagon, City of Kitchener, 2015 to 2022. Data: Waterloo Region Police Services and City of Kitchener Open Data.</figcaption>
+    </figure>
+    <p><a href="/assets/reports/kitchener-collision-analysis.pdf">Read the full report</a></p>
+  </section>
+
+  <section class="project" id="geocoding">
+    <h2>Geocoding 24 years of building permits</h2>
+    <p>Built a point address locator from the City of Kitchener's civic address points, geocoded 75,267 building permits at a 96.29% match rate, then animated new construction year by year to show the city's growth pushing outward into Huron South, Doon South and Grand River South. The 3.71% that failed to match turned out to be structural rather than an error: new-construction permits are issued before the address exists in the reference layer.</p>
+    <p class="tools">ArcGIS Pro. Create Locator, Geocode Addresses, Rematch, Definition Query, Time Slider, Animation.</p>
+    <figure>
+      <a href="/assets/gis/geocoding.jpg"><img src="/assets/gis/geocoding.jpg" width="1360" height="1021" loading="lazy" alt="Map of new construction building permits across Kitchener, 1999 to 2022, with three neighbourhood inset maps"></a>
+      <figcaption>New construction permits, City of Kitchener, 1999 to 2022, with insets for Huron South, Grand River South and Doon South. Data: City of Kitchener Open Data.</figcaption>
+    </figure>
+    <p><a href="/assets/reports/kitchener-geocoding-permits.pdf">Read the full report</a></p>
+  </section>
+
+  <section class="project" id="shot-efficiency">
+    <h2>NBA shot efficiency, mapped</h2>
+    <p>The same spatial question answered in two toolchains. First in ArcGIS Pro: a hexagonal grid over a georeferenced court, shots spatially joined to each cell, field goal percentage calculated per zone and differenced against the team average. Then rebuilt in Python to compare Stephen Curry against Nikola Jokić. Position shapes everything, with Curry's efficiency spread across the arc and Jokić's concentrated in the paint.</p>
+    <p class="tools">ArcGIS Pro, Generate Tessellation, Spatial Join, Field Calculator. Python, Jupyter, pandas, matplotlib.</p>
+    <figure>
+      <a href="/assets/gis/shot-efficiency.jpg"><img src="/assets/gis/shot-efficiency.jpg" width="1351" height="1128" loading="lazy" alt="Hexagonal map of Stephen Curry's field goal percentage by court zone for the 2021-22 season"></a>
+      <figcaption>Stephen Curry field goal percentage by court zone, 2021 to 22. Red is low efficiency, green is high. Data: NBA shot locations.</figcaption>
+    </figure>
+    <p><a href="/assets/reports/nba-shot-efficiency.pdf">Read the full report</a></p>
+  </section>
+
+  <section class="project" id="fire-network">
+    <h2>Where should the next fire station go?</h2>
+    <p>The Region of Waterloo had two candidate sites for a new station and rural response gaps to close. I built a road network dataset with travel times from segment length and posted speed, applied one-way restrictions, then ran service areas and location-allocation across four scenarios. New Hamburg cut calls outside a 10-minute response from 203 to 98, more than twice what Elmira managed, though neither site alone fully closes the rural gap.</p>
+    <p class="tools">ArcGIS Pro, Network Analyst. Network Dataset, Service Area, Location-Allocation, travel modes, one-way restrictions.</p>
+    <figure>
+      <a href="/assets/gis/fire-network.jpg"><img src="/assets/gis/fire-network.jpg" width="1351" height="675" loading="lazy" alt="Fire response coverage map for the Region of Waterloo showing 2, 5 and 10 minute drive-time service areas with the proposed New Hamburg station"></a>
+      <figcaption>Recommended scenario, 17 stations including New Hamburg, with 2, 5 and 10-minute drive-time areas. Red points are calls still outside 10-minute coverage. Data: Region of Waterloo Open Data.</figcaption>
+    </figure>
+    <p><a href="/assets/reports/waterloo-fire-network-analysis.pdf">Read the full report</a></p>
+  </section>
+
+  <section class="project" id="wind-siting">
+    <h2>Siting a wind farm in Bruce County</h2>
+    <p>Six criteria, wind resource plus setbacks from dwellings, built-up land, roads, forest and airports, each reclassified onto a common 30 m grid and combined in a weighted overlay. Weights came from siting literature and Ontario Regulation 359/09 rather than being split evenly. That left 554 km², or 13.3% of the county, as high suitability. Both recommended sites were then checked independently against every regulated setback, and the weighting was stress-tested at 20% and 50% wind.</p>
+    <p class="tools">ArcGIS Pro, Spatial Analyst. Euclidean Distance, Reclassify, Weighted Overlay, Region Group, Raster Calculator.</p>
+    <figure>
+      <a href="/assets/gis/wind-siting.jpg"><img src="/assets/gis/wind-siting.jpg" width="1351" height="851" loading="lazy" alt="Weighted overlay suitability raster for wind farm siting across Bruce County, Ontario, with two recommended sites marked"></a>
+      <figcaption>Final suitability surface for Bruce County with both recommended sites. Data: Bruce County Open Spatial Data, Ontario GeoHub, Canadian Wind Atlas.</figcaption>
+    </figure>
+    <p><a href="/assets/reports/bruce-county-wind-siting.pdf">Read the full report</a></p>
+  </section>
+
+</div>
+</body>
+</html>

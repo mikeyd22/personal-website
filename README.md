@@ -1,49 +1,46 @@
 # personal-website
 
-Source for **[damichael.com](https://damichael.com)** — the personal site and
-portfolio of Michael Da. Static, no build step, hosted on Firebase Hosting.
+Source for **[damichael.com](https://damichael.com)**, the personal site of
+Michael Da. Static, no build step, hosted on Firebase Hosting.
 
 ## Pages
 
 | File | What it is |
 | --- | --- |
-| `public/index.html` | One-page portfolio: hero with spinning D3 globe, about, selected work, contact |
-| `public/drone-build.html` | Case study / build log for the F450 quadcopter |
-| `public/spatial-analysis.html` | Hand-written HTML: five GIS analysis write-ups with report PDFs |
-| `public/404.html` | Simple not-found page in the site's colours |
+| `public/index.html` | Home page: banner photo, three paragraphs, contact icons |
+| `public/projects.html` | Five GIS analysis write-ups with report PDFs |
+| `public/drone.html` | Drone page, currently just the heading |
+| `public/404.html` | Not-found page |
+| `public/site.css` | The one stylesheet, shared by every page |
+| `public/theme.js` | Light/dark toggle, loaded blocking in `<head>` |
 
-## ⚠️ The HTML files are generated, not hand-written
+All plain HTML. Edit in any text editor. The header block is copied into each
+page, so a nav change means editing it in all three.
 
-`index.html` and `drone-build.html` are **self-extracting exports from a Claude
-Design canvas**. Each one inlines its fonts and JS libraries as base64 in a
-`<script type="__bundler/manifest">` block, plus the real page markup in a
-`<script type="__bundler/template">` block. On load, a small loader decodes the
-manifest into blob URLs, substitutes them into the template, and then calls
-`document.documentElement.replaceWith(...)` — swapping out the entire document.
+Old URLs `/spatial-analysis` and `/drone-build` redirect (301) to `/projects`
+and `/drone` in `firebase.json`.
 
-That has two consequences worth remembering:
+The drone page's previous content (component list, build log) is saved in
+`source-assets/drone-build-content.md` and its photos in
+`source-assets/drone/`.
 
-1. **Don't hand-edit the page content here.** Re-export from the canvas instead,
-   or your changes get overwritten the next time you do.
-2. **`<head>` exists twice.** The outer `<head>` is what crawlers, search
-   engines and link unfurlers read, because they don't run the JS. The
-   template's `<head>` is what the browser ends up with after the swap. The SEO
-   and Open Graph tags are duplicated into **both** on purpose — if you
-   re-export the canvas, you must re-apply them or the page goes back to
-   `<title>Bundled Page</title>` with no description or preview image.
+## Theme toggle
 
-Because the body is rendered by JS, view-source shows no content. The meta tags
-and the `Person` JSON-LD block in `index.html` are what give search engines and
-social previews something to work with.
+Every page follows the visitor's system theme by default. Clicking the
+sun/moon saves a choice in `localStorage`. `theme.js` is loaded blocking in
+`<head>` so `data-theme` is set before first paint and there is no flash.
 
 ## Local preview
 
+Use the Firebase emulator so clean URLs and headers behave like production:
+
 ```bash
-python3 -m http.server 5501 --directory public
+firebase serve --only hosting --port 5555
 ```
 
-Then open <http://localhost:5501>. (Claude Code users: `.claude/launch.json`
-defines this as the `site` config.)
+Claude Code users: `.claude/launch.json` defines this as the `firebase`
+config. The `site` config (plain Python server on 5501) works for quick
+looks but does not apply headers or clean URLs.
 
 ## Deploy
 
@@ -51,36 +48,32 @@ defines this as the `site` config.)
 firebase deploy --only hosting
 ```
 
-Firebase project: `personal-website-7c1da` (see `.firebaserc`). `public/` is the
-hosting root — everything in it ships.
+Firebase project: `personal-website-7c1da` (see `.firebaserc`). `public/` is
+the hosting root; everything in it ships.
 
-`firebase.json` turns on clean URLs (`/spatial-analysis`, `/drone-build`) and
-sets security headers (HSTS, CSP, nosniff, frame-ancestors none, referrer and
-permissions policies) plus a 30-day cache on `/assets/**`. The CSP has to allow
-`unsafe-inline`, `unsafe-eval`, `blob:` and unpkg.com because the bundled pages
-load React from unpkg at runtime and compile their page script with
-`new Function`. Tighten it once those pages are rewritten as plain HTML.
-
-To test headers locally, use the `firebase` config in `.claude/launch.json`
-(`firebase serve --only hosting`); the plain Python server does not apply them.
+`firebase.json` turns on clean URLs and sets security headers: HSTS, a strict
+CSP (`script-src 'self'`, no inline scripts, fonts only from Google Fonts),
+nosniff, frame-ancestors none, referrer and permissions policies. Assets are
+cached 30 days, CSS and JS one day.
 
 ## Assets
 
-`public/assets/` holds the images, resume PDF, report PDFs and social card.
-Everything in it is publicly downloadable, so keep it to files the pages
-actually use. Photos are saved without EXIF (the original drone photos carried
-GPS coordinates); if you add new phone photos, strip the metadata first.
+`public/assets/` holds only files a page references. Everything in it is
+publicly downloadable. Photos are saved without EXIF; if you add new phone
+photos, strip the metadata first (the original drone photos carried GPS
+coordinates).
 
-`source-assets/` (not deployed) keeps originals that no page references:
-`Michael-Da-thumbail.png` (source of `og-image.png`) and `Canda_GDP_Map.png`.
-`favicon-32.png` and `apple-touch-icon.png` come from `personal_logo.png`.
+`source-assets/` (not deployed) keeps originals and files no page uses right
+now: old thumbnails, the logo source, the social card, and so on.
 
-## History
+## DNS
 
-This started life as the [DevFolio](https://github.com/AnilSeervi/DevFolio)
-template. None of that code remains — the SCSS, the vendored JS (particles,
-scrollreveal, vanilla-tilt) and the template's placeholder assets were all
-removed once the canvas-exported pages replaced them.
+Domain is at GoDaddy. Records that matter:
+
+- `@` A record → Firebase Hosting
+- `www` CNAME → `personal-website-7c1da.web.app` (Firebase custom domain)
+- `@` TXT `v=spf1 -all` (domain sends no mail)
+- `_dmarc` TXT (quarantine)
 
 ## License
 
