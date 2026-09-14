@@ -74,7 +74,7 @@
   :root[data-theme="dark"] .theme .sun { display: none; }
 
   /* banner */
-  .banner { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 3px; }
+  .banner { width: 100%; height: auto; aspect-ratio: 21 / 10; object-fit: cover; object-position: 50% 42%; display: block; border-radius: 3px; }
   .placeholder {
     aspect-ratio: 21 / 10; border: 1px dashed var(--rule); background: transparent;
     display: flex; align-items: center; justify-content: center;
@@ -117,7 +117,7 @@
     </nav>
   </div>
 
-  <div class="banner placeholder" aria-hidden="true">photo</div>
+  <img class="banner" src="/assets/banner.jpg" width="1310" height="983" alt="Green valley and hazy mountain ridges under a cloudy sky">
 
   <div class="prose">
     <p>I study Geomatics at the <a href="https://uwaterloo.ca/" rel="noopener">University of Waterloo</a>, with a minor in Computer Science. I've been technical coordinator for the university's AWS Club and its Geospatial Club, running workshops for people who had never opened ArcGIS or a cloud console before.</p>
