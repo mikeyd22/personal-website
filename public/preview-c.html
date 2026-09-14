@@ -74,7 +74,12 @@
   :root[data-theme="dark"] .theme .sun { display: none; }
 
   /* banner */
-  .banner { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 3px; background: #fff; }
+  .banner { width: 100%; height: auto; display: block; border: 1px solid var(--rule); border-radius: 3px; }
+  .placeholder {
+    aspect-ratio: 21 / 10; border: 1px dashed var(--rule); background: transparent;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--soft); font-size: 13px; letter-spacing: 0.02em;
+  }
 
   /* prose */
   .prose { margin-top: 30px; }
@@ -100,11 +105,11 @@
 <div class="page">
 
   <div class="top">
-    <a class="name" href="/">Michael Da</a>
+    <a class="name" href="/">MDA</a>
     <nav>
-      <a href="/spatial-analysis">Analysis</a>
-      <a href="/drone-build">Drone</a>
       <a href="/assets/MichaelDaResume.pdf">Resume</a>
+      <a href="/spatial-analysis">Projects</a>
+      <a href="/drone-build">Drone</a>
       <button class="theme" type="button" aria-label="Switch theme">
         <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-13.2a1 1 0 0 1-1-1V1.5a1 1 0 1 1 2 0v1.3a1 1 0 0 1-1 1zm0 19.7a1 1 0 0 1-1-1v-1.3a1 1 0 1 1 2 0v1.3a1 1 0 0 1-1 1zM4.2 6.6a1 1 0 0 1-.7-.3l-.9-.9a1 1 0 0 1 1.4-1.4l.9.9a1 1 0 0 1-.7 1.7zm16.5 16.5a1 1 0 0 1-.7-.3l-.9-.9a1 1 0 1 1 1.4-1.4l.9.9a1 1 0 0 1-.7 1.7zM2.8 13H1.5a1 1 0 1 1 0-2h1.3a1 1 0 1 1 0 2zm19.7 0h-1.3a1 1 0 1 1 0-2h1.3a1 1 0 1 1 0 2zM3.3 23.1a1 1 0 0 1-.7-1.7l.9-.9a1 1 0 1 1 1.4 1.4l-.9.9a1 1 0 0 1-.7.3zM19.8 6.6a1 1 0 0 1-.7-1.7l.9-.9a1 1 0 1 1 1.4 1.4l-.9.9a1 1 0 0 1-.7.3z"/></svg>
         <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 14.2A9 9 0 0 1 9.8 2.4a1 1 0 0 0-1.3-1.2A11 11 0 1 0 22.8 15.5a1 1 0 0 0-1.2-1.3z"/></svg>
@@ -112,7 +117,7 @@
     </nav>
   </div>
 
-  <img class="banner" src="/assets/gis/wind-siting.jpg" width="1351" height="851" alt="Wind farm site suitability map of Bruce County, Ontario">
+  <div class="banner placeholder" aria-hidden="true">photo</div>
 
   <div class="prose">
     <p>I study Geomatics at the <a href="https://uwaterloo.ca/" rel="noopener">University of Waterloo</a>, with a minor in Computer Science. I've been technical coordinator for the university's AWS Club and its Geospatial Club, running workshops for people who had never opened ArcGIS or a cloud console before.</p>
